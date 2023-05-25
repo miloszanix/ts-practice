@@ -40,6 +40,8 @@ const user: User = {
     name: 'misa'
 };
 
+type Point = number | string
+
 // or
 // const user: {
 //     id: 1,
@@ -66,10 +68,73 @@ function log(message: string | number) {
 // interfaces
 interface UserInterface {
     id: number,
-    name: string
+    name: string,
+    readonly address: string,
+    age?: number
 }
 
 const user1: UserInterface = {
     id: 1,
-    name: 'John'
+    name: 'John',
+    address: '8th street'
 };
+
+// user1.address = '9th street' cant change beacause its readonly
+
+// interface Point = number | string doesnt work
+const p1: Point = 1;
+
+interface MathFunc {
+    (x: number, y: number): number
+}
+
+const add: MathFunc = (x: number, y: number): number => x + y;
+const sub: MathFunc = (x: number, y: number): number => x - y;
+
+// classes and inheritance
+interface PersonInterface {
+    id: number
+    name: string
+
+    register(): string
+}
+
+class Person implements PersonInterface {
+    id: number
+    name: string
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }
+
+    register(): string {
+        return `${this.name} is now registered`;
+    }
+}
+
+const mike = new Person(1, 'Mike');
+const josh = new Person(2, 'Josh');
+
+console.log(mike.register());
+console.log(josh.register());
+
+class Employee extends Person {
+    position: string
+
+    constructor(id: number, name: string, position: string) {
+        super(id, name);
+        this.position = position;
+    }
+}
+
+const emp = new Employee(3, 'John', 'Manager');
+console.log(emp.register());
+
+// generics
+function getArray<T>(items: T[]): T[] {
+    return new Array().concat(items);
+}
+
+let numArray = getArray([1, 2, 3, 4]);
+let strArray = getArray(['Brad', 'John', 'Jill']);
